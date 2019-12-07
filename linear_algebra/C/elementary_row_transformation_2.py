@@ -1,4 +1,6 @@
 import numpy as np
+# from linear_algebra.tools.utils import *
+from linear_algebra.C.utils_C import *
 
 
 def mat_ele_row_tran(A: np.ndarray, P: list):
@@ -167,7 +169,7 @@ def simplest_form1(A: np.ndarray):
 
 
 def mat_row_simplest_form(A: np.ndarray):
-    print(A)
+    # print(A)
     h = A.shape[-2]
     w = A.shape[-1]
     # E = np.eye(h)
@@ -175,7 +177,7 @@ def mat_row_simplest_form(A: np.ndarray):
     P = []
 
     R = np.ones(shape=A.shape[:-2]) * min(w, h)
-    print("R",R,A.shape)
+    print("R", R, A.shape)
     if np.any(A):
 
         for j in range(0, min(A.shape[-2], A.shape[-1])):
@@ -189,7 +191,7 @@ def mat_row_simplest_form(A: np.ndarray):
 
             # print(mask2*mask3)
 
-            idx = np.nonzero(np.all(mask2,axis=-1))
+            idx = np.nonzero(np.all(mask2, axis=-1))
             # idx = np.stack(idx,axis=0)
             # print(idx)
             # R[idx[0],idx[1]] -= 1
@@ -206,9 +208,8 @@ def mat_row_simplest_form(A: np.ndarray):
             # print(mask1)
             # print(mask3)
             # print(mask1*mask3[...,None])
-            mask1 = mask1*mask3[...,None]
+            mask1 = mask1 * mask3[..., None]
             # print(mask3[..., None].shape)
-
 
             idx = np.nonzero(mask1)  # tuple
 
@@ -238,26 +239,26 @@ def mat_row_simplest_form(A: np.ndarray):
 
             mask1 = A[..., i, j] != 0
             # mask2 = A[...,i,:] !=0
-            print("mask1",mask1, A[..., i, j])
+            print("mask1", mask1, A[..., i, j])
             # print(mask2)
             idx = np.nonzero(mask1)
             idx1 = np.stack(idx)
-            print("idxidx", idx1,j)
+            print("idxidx", idx1, j)
             for id in idx1.T:
-                id =id.tolist()
+                id = id.tolist()
                 id.extend([i])
                 id1 = tuple(id)
                 print("id0", id1, A[id1])
-                p = [1, i, 1/(A[id1][j])]
+                p = [1, i, 1 / (A[id1][j])]
                 P.append(p)
                 A[id1[:-1]], E1 = mat_ele_row_tran(A[id1[:-1]], [p])
             '''
             p = [2, i, (-A[id + i + 1, j]), id + i + 1]'''
-            mask1 = A[..., (i+1):, j] != 0
+            mask1 = A[..., (i + 1):, j] != 0
 
             idx = np.nonzero(mask1)
             idx1 = np.stack(idx)
-            idx1[-1,:]+= (i+1)
+            idx1[-1, :] += (i + 1)
             print("PPPPPPPPPPPP", A[..., i + 1, j], idx1)
             for id in idx1.T:
                 id1 = tuple(id)
@@ -266,38 +267,36 @@ def mat_row_simplest_form(A: np.ndarray):
                 P.append(p)
                 A[id1[:-1]], E1 = mat_ele_row_tran(A[id1[:-1]], [p])
 
-            mask1 = A[..., :i , j] != 0
+            mask1 = A[..., :i, j] != 0
             idx = np.nonzero(mask1)
             idx1 = np.stack(idx)
             # idx1[-1, :] += (i + 1)
             for id in idx1.T:
                 id1 = tuple(id)
-                print("id22222222222",id1, id1[-1])
+                print("id22222222222", id1, id1[-1])
                 p = [2, i, (-A[id1][j]), id1[-1]]
                 P.append(p)
                 A[id1[:-1]], E1 = mat_ele_row_tran(A[id1[:-1]], [p])
 
             print(A)
     return A
-            # mask1 = A[..., i:, j] != 0
-            # idx = np.nonzero(mask1)
-            # idx1 = np.stack(idx)
-            # for id in idx1.T:
-            #     p = [0, i, id[-1]]
-            #     # print("p",p)
-            #     P.append(p)
-            #     # print(A1)
-            # print(A)
+    # mask1 = A[..., i:, j] != 0
+    # idx = np.nonzero(mask1)
+    # idx1 = np.stack(idx)
+    # for id in idx1.T:
+    #     p = [0, i, id[-1]]
+    #     # print("p",p)
+    #     P.append(p)
+    #     # print(A1)
+    # print(A)
 
-
-
-            # P.append(p)
-            # A[mask1], E1 = mat_ele_row_tran(A[mask1], [p])
-            # E[mask1] = np.matmul(E1, E[mask1])
-            # print(A)
-            # else:
-            # R -= 1
-            # continue
+    # P.append(p)
+    # A[mask1], E1 = mat_ele_row_tran(A[mask1], [p])
+    # E[mask1] = np.matmul(E1, E[mask1])
+    # print(A)
+    # else:
+    # R -= 1
+    # continue
 
 
 #     p = [1, i, (1 / A[i, j])]
@@ -328,7 +327,7 @@ def mat_row_simplest_form(A: np.ndarray):
 # return A, E, R, P
 
 
-def col_simplest_form(A: np.ndarray):
+def col_simplest_form1(A: np.ndarray):
     E = np.eye(A.shape[1])
     P = []
     R = min(A.shape[0], A.shape[1])
@@ -374,7 +373,7 @@ def col_simplest_form(A: np.ndarray):
     return A, E, R, P
 
 
-def det_upptritran(A):
+def det_upptritran1(A):
     if A.shape[0] == A.shape[1]:
         E = np.eye(A.shape[1])
         # D = 0
@@ -428,7 +427,7 @@ def det_upptritran(A):
         raise ValueError
 
 
-def det_lowtritran(A):
+def det_lowtritran1(A):
     if A.shape[0] == A.shape[1]:
         E = np.eye(A.shape[1])
         # D = 0
@@ -525,6 +524,84 @@ def det_lowtritran(A):
 #     else:
 #         raise ValueError
 
+def mat_rowsimplestform(A: np.ndarray):
+    # print(A.shape)
+    # s = []
+    # s.extend(A.shape)
+    h = A.shape[-2]
+    w = A.shape[-1]
+    # s = A.shape
+    # s1 = list(s)
+    # s_e = s1[:-2]
+    # s_e.extend([h,h])
+    # print(s_e)
+
+    # s_e = tuple(*A.shape[:-2], h, h)
+    A = A.reshape(-1, h, w)
+    # print(A.shape)
+    # E = np.eye(h)
+    Alist = []
+    Elist = []
+    Dlist = []
+    Plist = []
+    Rlist = []
+
+    for a_ in A:
+        a, e, r, d, p = row_simplest_form(a_)
+        Alist.append(a)
+        Elist.append(e)
+        Rlist.append(r)
+        Dlist.append(d)
+        Plist.append(p)
+    # print(Alist)
+    Aarr = np.stack(Alist)
+    Earr = np.stack(Elist)
+    # print(len(Plist))
+    # print(Plist)
+    # print(Rlist)
+    # print(s_e)
+    return Aarr, Earr, Rlist, Dlist, Plist
+
+
+def mat_colsimplestform(A: np.ndarray):
+    # print(A.shape)
+    # s = []
+    # s.extend(A.shape)
+    h = A.shape[-2]
+    w = A.shape[-1]
+    # s = A.shape
+    # s1 = list(s)
+    # s_e = s1[:-2]
+    # s_e.extend([h,h])
+    # print(s_e)
+
+    # s_e = tuple(*A.shape[:-2], h, h)
+    A = A.reshape(-1, h, w)
+    # print(A.shape)
+    # E = np.eye(h)
+    Alist = []
+    Elist = []
+    Dlist = []
+    Plist = []
+    Rlist = []
+
+    for a_ in A:
+        a, e, r, d, p = col_simplest_form(a_)
+        Alist.append(a)
+        Elist.append(e)
+        Rlist.append(r)
+        Dlist.append(d)
+        Plist.append(p)
+
+    # print(Alist)
+    Aarr = np.stack(Alist)
+    Earr = np.stack(Elist)
+    # print(len(Plist))
+    # print(Plist)
+    # print(Rlist)
+    # print(s_e)
+    return Aarr, Earr, Rlist, Dlist, Plist
+
 
 if __name__ == '__main__':
     np.set_printoptions(precision=2, suppress=True)
@@ -540,11 +617,17 @@ if __name__ == '__main__':
     # print(f)
     # print(c)
 
-    a = np.array([0, 1, 2, 2, 0, 0, 9, 0, 0, 0, 1,  0, 0, 9, 2, 3, 0, 1, 0, 3,0, 1, 0, 3]).reshape(1, 4, 3, 2)
-    # a = np.array([0, 1, 2, 0, 1, 0, 0, 0, 3]).reshape(3, 3)
+    # a = np.array([0, 1, 2, 2, 0, 5, 9, 0, 7, 0, 1, 0, 3, 9, 2, 3, 0, 1, 0, 3, 0, 1, 0, 3]).reshape(2, 3, 4)
+    a = np.array([0, 1, 2, 5, 1, 6, 2, 0, 3]).reshape(1, 3, 3)
+    # a = np.random.randint(0, 10, size=(10, 2, 2))
     # a = np.array([1, 1, -3, -1, 1, 3, -1, -3, 4, 4, 1, 5, -9, -8, 0]).reshape(5, -1)
     # print(a)
-    s = mat_row_simplest_form(a)
+    # s = mat_row_simplest_form(a)
+    s = mat_rowsimplestform(a)
+    print(s)
+    s1 = mat_colsimplestform(a)
+    print(s1)
+    print(np.linalg.det(a))
     # print(s)
     # print("s1", s1)
     # print(e1)
